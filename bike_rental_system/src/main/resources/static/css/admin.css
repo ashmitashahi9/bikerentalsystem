@@ -1,0 +1,344 @@
+* {
+    border: none;
+    outline: none;
+    text-decoration: none;
+}
+
+nav * {
+    padding: 0;
+}
+
+nav{
+    margin: 0;
+    position: fixed;
+    top:0;
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    background: #f17300;
+    width: 90px;
+    overflow: hidden;
+    transition: width 0.2s linear;
+    box-shadow: 0 20px 35px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+.logo{
+    text-align: center;
+    display: flex;
+    transition: all 0.5s ease;
+}
+.logo img{
+    height: 55px;
+    mix-blend-mode: lighten;
+    margin-left: -4px;
+}
+nav a{
+    position: relative;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    width: 300px;
+    padding: 10px;
+    font-family: Blinker, sans-serif;
+}
+a.active{
+    color: #f17300;
+    background-color: white;
+}
+a.active .fas{
+    color: #f17300;
+}
+a.active:hover{
+    background: white;
+}
+nav .fas{
+    position: relative;
+    width: 70px;
+    height: 40px;
+    top: 10px;
+    font-size: 20px;
+    text-align: center;
+    color: white;
+}
+.nav-item{
+    position: relative;
+    top: 12px;
+    margin-left: 10px;
+}
+nav a:hover{
+    background: #e66f00;
+}
+nav:hover{
+    width: 240px;
+    transition: all 0.5s ease;
+}
+.logout{
+    position: absolute;
+    bottom: 0;
+}
+
+.message{
+    top: 0;
+}
+
+article{
+    padding-left: 90px;
+}
+
+.select, .input-field{
+    margin-left: 4%;
+    width: 200px;
+    border: none;
+    border-bottom: 2px solid black;
+    font-family: Blinker, sans-serif;
+    font-size: 18px;
+}
+
+.select{
+    width: 208px;
+}
+
+.data {
+    display: flex;
+    align-items: center;
+    font-family: Blinker, serif;
+    font-weight: bold;
+    font-size: 18px;
+    color: #333333;
+    min-width: 115px;
+}
+
+.specifications .input-field{
+    background-color: #EFEFEF;
+}
+
+.upload {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: opacity 250ms ease-in-out;
+}
+
+.upload i{
+    margin-left: 0;
+    margin-right: 8px;
+    color: white;
+}
+
+.upload label {
+    border-style: none;
+    border-radius: 8px;
+    width: 90px;
+    height: 30px;
+    cursor: pointer;
+    transition: all 150ms ease-in-out;
+    background-color: #71cc35;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Calibri, sans-serif;
+}
+
+.upload label:hover{
+    scale: 1.1;
+}
+
+.no-image{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.toolTipTextInvalid, .toolTipTextValid {
+    opacity: 0;
+    visibility: hidden;
+    width: 120px;
+    color: white;
+    font-family: Blinker, sans-serif;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 8px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    transition: visibility 0s, opacity 0.4s ease-in-out;
+}
+
+.no-image .toolTipTextValid, .no-image .toolTipTextInvalid{
+    top: 88%;
+}
+
+.toolTipTextInvalid {
+    background-color: #e53e3e;
+}
+
+.toolTipTextValid {
+    background-color: #71cc35;
+}
+
+.toolTipTextInvalid::after, .toolTipTextValid::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #e53e3e transparent;
+}
+
+.toolTipTextValid::after {
+    border-color: transparent transparent #71cc35 transparent;
+}
+
+.no-image:hover .toolTipTextValid,
+.no-image:hover .toolTipTextInvalid{
+    visibility: visible;
+    opacity: 1;
+}
+
+.paging-nav {
+    padding-top: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paging-nav a {
+    margin: auto 5px;
+    text-decoration: none;
+    padding: 8px 14px;
+    background: #f17300;
+    color: white;
+    border-radius: 8px;
+    font-family: Blinker, sans-serif;
+    font-size: 18px;
+    width: 14px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paging-nav .selected-page {
+    background: #187ed5;
+    font-weight: bold;
+}
+
+.table-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.table-content .topic{
+    display: flex;
+    gap: 20px;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    border-radius: 1em;
+    overflow: hidden;
+    font-family: Blinker, sans-serif;
+    width: 90%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+.styled-table thead tr {
+    background-color: #f17300;
+    color: #ffffff;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #f17300;
+}
+
+.date-topic{
+    font-family: "Suez One", sans-serif;
+    color: #5f5f5f;
+    font-size: 26px;
+    margin-bottom: 24px;
+    margin-top: 30px;
+    border-bottom: 2px solid;
+    width: 180px;
+}
+
+.user {
+    display: flex;
+    gap: 20px;
+}
+
+.user .user-name {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+}
+
+.user .user-name .user-name-full{
+    font-size: 22px;
+    color: black;
+}
+
+.user .user-name .user-email{
+    font-size: 12px;
+    color: #5f5f5f;
+}
+
+.user .user-image img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-approved {
+    background-color: #71cc35;
+    padding: 8px;
+    border-radius: 10px;
+    color: white;
+}
+
+.user-submitted {
+    background-color: rgb(255, 243, 109);;
+    padding: 8px;
+    border-radius: 10px;
+}
+
+.user-approved {
+    background-color: #71cc35;
+    padding: 8px;
+    border-radius: 10px;
+    color: white;
+}
+
+.user-rejected {
+    background-color: #e53e3e;
+    padding: 8px;
+    border-radius: 10px;
+    color: white;
+}
+
+.user-disabled {
+    background-color: #EFEFEF;
+    padding: 8px;
+    border-radius: 10px;
+}

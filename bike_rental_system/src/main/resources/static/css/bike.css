@@ -1,0 +1,210 @@
+.middle{
+    display: flex;
+    padding-right: 8px;
+    min-height: calc(100vh - 312px);
+}
+
+.middle .display-items{
+    padding-top: 75px;
+    flex-grow: 0;
+}
+
+h3{
+    font-family: Artifika, sans-serif;
+    color: #5f5f5f;
+    padding-left: 4%;
+    font-size: 36px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    flex: 1;
+}
+
+.middle .display-items .items-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.middle .display-items .items-container .topic{
+    width: 100%;
+    height: fit-content;
+}
+
+.middle .display-items .items-container .desc{
+    display: block;
+    padding-left: 4%;
+    font-family: Blinker, sans-serif;
+    font-size: 22px;
+    color: #5f5f5f;
+    margin-bottom: 8px;
+}
+
+.middle .display-items .items-container .topic .see-more {
+    float: right;
+    margin-top: 24px;
+    margin-right: 48px;
+}
+
+.middle .display-items .items-container .topic .see-more a{
+    border-style: none;
+    background-color: white;
+    color: #6096ba;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 200ms ease-in-out;
+    text-decoration: none;
+}
+
+.middle .display-items .items-container .topic .see-more a:hover{
+    color: #e94d4d;
+}
+
+.middle .display-items .items-container .bike-details-container{
+    display: flex;
+    width: 100%;
+    background-color: #efefef;
+}
+
+.middle .display-items .items-container .bike-details-container .bike-image-container {
+    flex: 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.middle .display-items .items-container .bike-details-container .bike-data-container {
+    flex: 7;
+    margin-left: 8px;
+    display: flex;
+}
+
+.middle .display-items .items-container .bike-details-container .bike-image-container img {
+    width: 360px;
+    height: 252px;
+    object-fit: cover;
+    border: 3px solid #a9cfee;
+    border-radius: 40px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+.middle .display-items .items-container .bike-details-container .bike-data-container .specifications {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1.2;
+}
+
+.middle .display-items .items-container .bike-details-container .bike-data-container .prices {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h2{
+    font-family: "Suez One", sans-serif;
+    color: #5f5f5f;
+    font-size: 26px;
+    margin-bottom: 16px;
+    margin-top: 0;
+}
+
+.middle .display-items .items-container .bike-details-container .bike-data-container .specifications .field-container {
+    display: flex;
+    gap: 50px;
+    margin-bottom: 12px;
+}
+
+.middle .display-items .items-container .bike-details-container .bike-data-container .specifications .headings, .middle .display-items .items-container .bike-details-container .bike-data-container .specifications .data{
+    display: flex;
+    align-items: center;
+    font-family: Blinker, serif;
+    font-weight: bold;
+    font-size: 18px;
+    color: #333333;
+    min-width: 115px;
+}
+
+.middle .display-items .items-container .bike-details-container .divider {
+    background-color: #bfbfbf;
+    width: 2px;
+    border-radius: 1px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.middle .display-items .items-container .bike-details-container .bike-data-container .prices p{
+    display: flex;
+    align-items: center;
+    font-family: Blinker, serif;
+    font-weight: bold;
+    font-size: 20px;
+    color: #333333;
+    min-width: 115px;
+    margin-bottom: 14px;
+}
+
+.middle .display-items .items-container .bike-details-container .bike-data-container .prices span{
+    font-family: Blinker, serif;
+    font-weight: bold;
+    font-size: 18px;
+    color: #333333;
+    min-width: 115px;
+    margin-bottom: 14px;
+    text-align: center;
+    width: 90%;
+}
+
+.middle .display-items .items-container .bike-details-container .bike-data-container .prices .price{
+    width: 70%;
+    height: 42px;
+    border-radius: 8px;
+    border: 2px solid #6096ba;
+    color: white;
+    background-color: #97c4e3;
+    margin-bottom: 14px;
+    padding: 0 12px 0 12px;
+    font-size: 16px;
+    font-family: Artifika, sans-serif;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 150ms ease-in;
+}
+
+.middle .display-items .items-container .bike-details-container .bike-data-container .prices .price:hover{
+    scale: 1.07;
+}
+
+@media (max-width: 835px) {
+    .bike-details-container{
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .bike-data-container{
+        text-align: center;
+    }
+
+    .middle .display-items .items-container .bike-details-container .bike-data-container .specifications .field-container{
+        justify-content: center;
+        gap: 25px;
+    }
+
+    .middle .display-items .items-container .bike-details-container .bike-data-container .specifications .data {
+        min-width: 152px;
+    }
+}
+
+@media (max-width: 610px) {
+    .bike-data-container{
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 745px) {
+    .payment-popup{
+        flex-direction: column;
+    }
+}

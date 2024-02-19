@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customers || BikeSapati</title>
+  <link th:href="@{~/css/admin.css}" rel="stylesheet">
+  <link th:href="@{~/css/application.css}" rel="stylesheet">
+  <link th:href="@{~/css/login.css}" rel="stylesheet">
+  <link th:href="@{~/css/settings.css}" rel="stylesheet">
+
+  <link href='https://fonts.googleapis.com/css?family=Suez+One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Rammetto+One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Blinker' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Artifika' rel='stylesheet'>
+
+  <link rel="shortcut icon" type="image/x-icon" th:href="@{~/images/motorcycle-solid.svg}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+<nav th:replace="~{fragments/adminNavbar.html :: navBar}"></nav>
+<script>
+  navItems=document.getElementsByTagName("a");
+  for (let i=0; i<navItems.length; i++){
+    if (navItems.item(i).classList.contains("active")){
+      navItems.item(i).classList.remove("active");
+    }
+  }
+  navItems.item(3).classList.add("active");
+</script>
+<article>
+<div class="settings-container">
+  <h3>General</h3>
+  <div class="general-container">
+
+    <div class="general-form-container">
+      <div class="text-inputs">
+
+        <div class="field-container">
+          <div class="headings">Name</div>
+
+          <div class="divider"></div>
+
+          <div class="data">
+            <u th:text="${user.FName}+'  '+${user.LName}"></u>
+          </div>
+        </div>
+
+        <div class="field-container">
+          <div class="headings">Phone</div>
+
+          <div class="divider"></div>
+
+          <div class="data">
+            <u th:text="${user.mobileNo}"></u>
+          </div>
+        </div>
+
+        <div class="field-container">
+          <div class="headings">Address</div>
+
+          <div class="divider"></div>
+
+          <div class="data">
+            <u th:text="${user.address}"></u>
+          </div>
+        </div>
+      </div>
+
+      <div class="image-inputs">
+        <div class="picture-uploader">
+          <div class="no-image">
+            <img th:src="'data:image/png;base64,'+${user.imageBase64}" id="ItemPreview">
+          </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <hr width="96%" style="border: 1px solid #bfbfbf">
+
+  <h3>Documents</h3>
+  <div class="documents-container">
+
+    <div class="documents-form-container">
+      <div class="text-inputs">
+        <div class="field-container">
+          <div class="headings">Citizenship</div>
+          <div class="divider"></div>
+          <div class="fields">
+            <div class="text-input-container-short" style="width: 90%">
+              <div class="short-input-each">
+                <img class="document-image" th:src="'data:image/png;base64,'+${user.citizenshipFBase64}">
+              </div>
+
+              <div class="short-input-each">
+                <img class="document-image" th:src="'data:image/png;base64,'+${user.citizenshipBBase64}">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-container">
+          <div class="headings">License</div>
+          <div class="divider"></div>
+          <div class="fields">
+            <div class="short-input-each" style="width: 90%">
+              <img class="document-image" th:src="'data:image/png;base64,'+${user.licenseBase64}">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="submit-div" style="margin-top: 50px; margin-bottom: 80px; gap: 100px;">
+    <a class="submit anchor" th:href="@{~/customers/}+${user.id}+'/true'" style="background-color: #71cc35;">Approve</a>
+    <a class="submit anchor" th:href="@{~/customers/}+${user.id}+'/false'" style="background-color: #e94d4d;">Reject</a>
+  </div>
+</div>
+</article>
+</body>
+</html>

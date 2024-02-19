@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customers || BikeSapati</title>
+
+  <link th:href="@{~/css/admin.css}" rel="stylesheet">
+  <link th:href="@{~/css/application.css}" rel="stylesheet">
+
+  <link href='https://fonts.googleapis.com/css?family=Blinker' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Suez+One' rel='stylesheet'>
+
+  <link rel="shortcut icon" type="image/x-icon" th:href="@{~/images/motorcycle-solid.svg}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+<nav th:replace="~{fragments/adminNavbar.html :: navBar}"></nav>
+<div th:if="${message}">
+  <div th:replace="~{fragments/message.html :: message-div}"></div>
+</div>
+<script th:src="@{~/javascript/message.js}"></script>
+<script>
+  navItems=document.getElementsByTagName("a");
+  for (let i=0; i<navItems.length; i++){
+    if (navItems.item(i).classList.contains("active")){
+      navItems.item(i).classList.remove("active");
+    }
+  }
+  navItems.item(3).classList.add("active");
+</script>
+
+<article>
+  <div class="table-content">
+    <div class="topic">
+      <h3 style="padding: 0; margin-top: 30px;">Customers</h3>
+    </div>
+    <table class="styled-table" id="tableData">
+      <thead>
+      <tr>
+        <th>Customer</th>
+        <th>Phone Number</th>
+        <th>Status</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="user : ${userList}">
+        <td><a th:href="@{~/customers/}+${user.id}">
+          <div class="user">
+            <div class="user-image">
+              <img th:src="'data:image/png;base64,'+${user.imageBase64}">
+            </div>
+            <div class="user-name">
+              <span class="user-name-full" th:text="${user.FName}+' '+${user.LName}"></span>
+              <span class="user-email" th:text="${user.email}"></span>
+            </div>
+          </div>
+        </a></td>
+        <td th:text="${user.mobileNo}"></td>
+        <td th:if="${user.status}=='Approved'"><span class="user-approved">Approved</span></td>
+        <td th:if="${user.status}=='Submitted'"><span class="user-submitted">Submitted</span></td>
+        <td th:if="${user.status}=='Rejected'"><span class="user-rejected">Rejected</span></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</article>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript" th:src="@{~/javascript/pagination.js}"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#tableData').paging({limit:5});
+  });
+</script>
+</body>
+</html>

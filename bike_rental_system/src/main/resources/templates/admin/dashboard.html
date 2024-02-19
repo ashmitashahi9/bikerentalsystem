@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard || BikeSapati</title>
+
+    <link th:href="@{~/css/application.css}" rel="stylesheet">
+    <link th:href="@{~/css/admin.css}" rel="stylesheet">
+
+    <link href='https://fonts.googleapis.com/css?family=Blinker' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Suez+One' rel='stylesheet'>
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{~/images/motorcycle-solid.svg}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+<nav th:replace="~{fragments/adminNavbar.html :: navBar}"></nav>
+<div th:if="${message}">
+    <div th:replace="~{fragments/message.html :: message-div}"></div>
+</div>
+<script th:src="@{~/javascript/message.js}"></script>
+<article>
+    <div class="table-content">
+    <div class="topic">
+        <h3 style="padding: 0; margin-top: 30px;">Bookings For: </h3>
+        <input type="date" class="date-topic" onkeydown="return false;" th:value="${date}" onchange="window.location='/bookings/'+document.getElementsByClassName('date-topic').item(0).value">
+    </div>
+    <table class="styled-table" id="tableData">
+        <thead>
+        <tr>
+            <th>Bike</th>
+            <th>Customer</th>
+            <th>Booking Date</th>
+            <th>Return Date</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="eachBooking : ${booking}">
+            <td><a th:href="@{~/bike/}+${eachBooking.bikeId.id}" th:text="${eachBooking.bikeId.bikeName}"></a></td>
+            <td><a th:href="@{~/customers/}+${eachBooking.userId.id}" th:text="${eachBooking.userId.FName}+' '+${eachBooking.userId.LName}"></a></td>
+            <td th:text="${#dates.format(eachBooking.bookingDate, 'dd-MM-yyyy')}"></td>
+            <td th:text="${#dates.format(eachBooking.releaseDate, 'dd-MM-yyyy')}"></td>
+            <td th:text="'Rs. '+${eachBooking.bikeId.priceDay}"></td>
+            <td style="display: flex; justify-content: center; gap: 12px;">
+                <a class="user-approved" th:href="@{~/booking/}+${eachBooking.id}+'/Taken'" th:if="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')==date && eachBooking.status!='Taken' && #dates.format(eachBooking.releaseDate, 'yyyy-MM-dd')!=date}">Pickup</a>
+                <a class="user-rejected" th:href="@{~/booking/}+${eachBooking.id}+'/Returned'" th:if="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')==date && eachBooking.status=='Taken' && #dates.format(eachBooking.releaseDate, 'yyyy-MM-dd')==date}">Return</a>
+                <a class="user-disabled" th:if="${eachBooking.status=='Taken' && #dates.format(eachBooking.bookingDate, 'yyyy-MM-dd')==date}">Delivered</a>
+                <a class="user-disabled" th:if="${eachBooking.status=='Returned'}">Returned</a>
+            </td>
+        </tr>
+        <tr th:if="${booking.isEmpty()}">
+            <td colspan="6">No bookings for the date!</td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+</article>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript" th:src="@{~/javascript/pagination.js}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#tableData').paging({limit:5});
+    });
+</script>
+</body>
+</html>

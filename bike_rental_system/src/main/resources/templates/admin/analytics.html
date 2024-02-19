@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics || BikeSapati</title>
+  <link th:href="@{~/css/admin.css}" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Blinker' rel='stylesheet'>
+  <link rel="shortcut icon" type="image/x-icon" th:href="@{~/images/motorcycle-solid.svg}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+<nav th:replace="~{fragments/adminNavbar.html :: navBar}"></nav>
+<div th:if="${message}">
+  <div th:replace="~{fragments/message.html :: message-div}"></div>
+</div>
+<script th:src="@{~/javascript/message.js}"></script>
+<script>
+  navItems=document.getElementsByTagName("a");
+  for (let i=0; i<navItems.length; i++){
+    if (navItems.item(i).classList.contains("active")){
+      navItems.item(i).classList.remove("active");
+    }
+  }
+  navItems.item(4).classList.add("active");
+</script>
+</body>
+</html>

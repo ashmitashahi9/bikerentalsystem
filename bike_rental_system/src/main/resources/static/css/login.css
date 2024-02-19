@@ -1,0 +1,501 @@
+body {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+.head-login{
+    background-color: #f17300;
+    top: 0;
+    left:0;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 4;
+}
+
+.head-login .logo-div{
+    flex: 1;
+}
+
+.head-login .navbar {
+    display: flex;
+    flex: 0.7;
+}
+
+.head-login .navbar a{
+    text-decoration: none;
+    font-family: Blinker, serif;
+    position: relative;
+    padding: 10px 20px;
+    color: white;
+}
+
+.head-login .navbar li {
+    list-style: none;
+    position: relative;
+}
+
+.form-container {
+    width: 100%;
+    margin-top: 70px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.form-container .image{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    background: url(../images/home-images/back.png) no-repeat;
+    background-size: 100% 102%;
+    height: calc(100vh - 70px);
+}
+
+.form-container .image .text h1{
+    font-size: 3rem;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: Artifika, sans-serif;
+}
+
+.form-container .image .text h1 span {
+    color: #f17300;
+}
+
+.form-container .image .bike-image {
+    width: 90%;
+    max-width: 90%;
+}
+
+.form-container .form {
+    flex: 1;
+    max-width: 450px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.form-container .form .tab-buttons {
+    width: 100%;
+    display: flex;
+}
+
+.form-container .form .tab-buttons button{
+    width: 100%;
+    flex: 1;
+    height: 50px;
+}
+
+.form-container .form .tab-buttons .login {
+    border-radius: 16px;
+    font-family: "Rammetto One", sans-serif;
+    font-size: 16px;
+    color: white;
+    border-style: none;
+    cursor: pointer;
+    background-color: #f17300;
+    transition: all 250ms ease-out;
+    margin: 4px;
+}
+
+.form-container .form .tab-buttons .signup {
+    border-radius: 16px;
+    font-family: "Rammetto One", sans-serif;
+    font-size: 16px;
+    color: #f17300;
+    background-color: white;
+    border-style: none;
+    cursor: pointer;
+    transition: all 150ms ease-in-out;
+    margin: 4px;
+    scale: 0.8;
+}
+
+.form-container .form .login-container {
+    width: 350px;
+    padding: 10px 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-container .form .signup-container {
+    width: 350px;
+    padding: 10px 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.text-input-container i, .show-password-button i, .document-name i {
+    margin-left: 10px;
+    color: #9f9f9f;
+    cursor: pointer;
+}
+
+.toolTipTextInvalid, .toolTipTextValid {
+    opacity: 0;
+    visibility: hidden;
+    width: 120px;
+    color: white;
+    font-family: Blinker, sans-serif;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 8px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 150%;
+    left: 50%;
+    margin-left: -60px;
+    transition: visibility 0s, opacity 0.4s ease-in-out;
+}
+
+.no-image .toolTipTextValid, .no-image .toolTipTextInvalid{
+    top: 101%;
+}
+
+.toolTipTextInvalid {
+    background-color: #e53e3e;
+}
+
+.toolTipTextValid {
+    background-color: #71cc35;
+    width: 60px;
+    margin-left: -30px;
+}
+
+.toolTipTextInvalid::after, .toolTipTextValid::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #e53e3e transparent;
+}
+
+.toolTipTextValid::after {
+    border-color: transparent transparent #71cc35 transparent;
+}
+
+i:hover .toolTipTextInvalid, i:hover .toolTipTextValid {
+    visibility: visible;
+    opacity: 1;
+}
+
+input ~ i {
+    margin-left: 10px;
+    color: #9f9f9f;
+    position: absolute;
+    transition: color 0.4s;
+}
+
+input:focus ~ i {
+    color: #e53e3e;
+}
+
+.or {
+    display: flex;
+    width: 100%;
+    height: 19px;
+    color: #f17300;
+    font-family: Blinker, sans-serif;
+    margin-top: 22px;
+}
+
+.or hr{
+    width: 40%;
+    border-radius: 5px;
+}
+
+.form-container .form .text-input-container, .settings-container .security-container .email-field .change-email .text-input-container {
+    width: 100%;
+    margin-top: 20px;
+    background-color: #EFEFEF;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.form-container .form .login-form, .form .signup-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-container .form .signup-form .text-input-container-short {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+}
+
+.form-container .form .text-input{
+    width: 100%;
+    height: 38px;
+    border: none;
+    background-color: #EFEFEF;
+    font-size: 14px;
+    padding-left: 30px;
+    border-radius: 8px;
+}
+
+.form-container .form .text-input:focus{
+    outline: none;
+}
+
+.password-input-container {
+    width: 100%;
+    display: flex;
+    border-radius: 8px;
+    border: none;
+    background-color: #EFEFEF;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.password-input {
+    width: 100%;
+    height: 38px;
+    border-radius: 8px;
+    border: none;
+    background-color: #EFEFEF;
+    padding-left: 30px;
+}
+
+.password-input:focus {
+    outline: none;
+}
+
+.show-password-button{
+    width: 28px;
+    height: 28px;
+    margin-right: 12px;
+    border: none;
+    cursor: pointer;
+    background-color: #EFEFEF;
+}
+
+.form-container .form .login-form .forgot {
+    display: inline-block;
+    float: right;
+    font-family: Blinker, serif;
+    font-size: 12px;
+    text-decoration: none;
+    margin-top: 5px;
+    padding-bottom: 2px;
+    margin-left: 118px;
+    color: #586ba4;
+    position: relative;
+    cursor: pointer;
+}
+
+.form-container .form .login-form .forgot a:after, .head-login .navbar a:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #586ba4;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.head-login .navbar a:after{
+    background-color: white;
+}
+
+.form-container .form .login-form .forgot a:hover:after, .head-login .navbar a:hover:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.form-container .form .submit {
+    width: 100%;
+    height: 42px;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    background-color: #f17300;
+    margin-top: 40px;
+    padding: 0 12px 0 12px;
+    font-size: 12px;
+    font-family: "Rammetto One", sans-serif;
+    cursor: pointer;
+    transition: all 250ms ease-in;
+}
+
+.form-container .form .submit:hover {
+    scale: 1.05;
+}
+
+.how-it-works, .about, .reviews{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 35px;
+    background-color: #EFEFEF;
+    padding-bottom: 35px;
+}
+
+.about {
+    background-color: white;
+}
+
+.how-it-works .hiw-container .box i{
+    color: #f17300;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #DFDFDF;
+    transition: all 350ms ease-in-out;
+}
+
+.how-it-works .hiw-container .box i:hover{
+    scale: 1.1;
+    background-image: linear-gradient(#faaa79, #f17300);
+    color: white;
+}
+
+.text-topic{
+    text-align: center;
+}
+
+.text-topic span {
+    font-family: Blinker, sans-serif;
+    font-size: 1.5rem;
+}
+
+.text-topic h1{
+    font-family: Artifika, sans-serif;
+    font-size: 2.5rem;
+}
+
+.how-it-works .hiw-container, .reviews .review-container{
+    width: 90%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+    gap: 1rem;
+}
+
+.about .content {
+    display: flex;
+}
+
+.about .content .image {
+    flex: 0.8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.about .content .image img{
+    width: 80%;
+}
+
+.about .content .paragraph{
+    flex: 1.8;
+    font-family: Blinker, sans-serif;
+    text-align: justify;
+    width: 80%;
+    display: flex;
+    padding-right: 30px;
+    padding-top: 30px;
+    align-content: center;
+}
+
+.reviews .review-container{
+    gap: 1.75rem;
+    padding-bottom: 40px;
+    margin-top: 20px;
+}
+
+.how-it-works .hiw-container .box{
+    text-align: center;
+    padding: 20px;
+}
+
+.box h2{
+    font-family: Artifika, sans-serif;
+}
+
+.box p{
+    font-family: Blinker, sans-serif;
+}
+
+.reviews .review-container .box{
+    border-style: solid;
+    border-radius: 18px;
+    text-align: center;
+    padding: 20px;
+    background: white;
+}
+
+.reviews .review-container .box .img-container {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+}
+
+.reviews .review-container .box .img-container img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.reviews .review-container .box i{
+    margin: 5px;
+    color: #ffaa4a;
+}
+
+.reviews .review-container .box p{
+    color: #5f5f5f;
+    font-style: italic;
+}
+
+@media (max-width: 690px) {
+    .head-login .logo-div .logo {
+        width: 84px;
+        object-fit: cover;
+        object-position: 0;
+    }
+
+    .head-login .logo-div {
+        flex: 0.3;
+    }
+}
+
+@media (max-width: 780px) {
+    .form-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .form-container .image {
+        display: none;
+    }
+
+    .about .content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .about .content .paragraph {
+        padding: 30px;
+    }
+}

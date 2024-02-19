@@ -1,0 +1,103 @@
+<div th:fragment="search-bar-settings" class="head">
+
+  <!-- Logo Division -->
+  <div class="logo-div" style="flex: 1.5;">
+    <a th:href="@{/home}">
+      <img th:src="@{~/images/logos/logopng.png}" alt="Logo" class="logo">
+    </a>
+  </div>
+
+  <!-- Search Division -->
+  <div class="search-div">
+
+    <!-- Input Box -->
+    <div style="flex: 1;">
+      <label>
+        <input placeholder="Search Bikes..." class="search">
+      </label>
+    </div>
+
+    <!-- Search Button -->
+    <div>
+      <button class="search-button" onclick="if (document.getElementsByClassName('search').item(0).value!=='')
+      window.location='/search/'+document.getElementsByClassName('search').item(0).value">
+        <img th:src="@{~/images/search.png}" alt="Go">
+      </button>
+    </div>
+  </div>
+
+  <!-- Profile Picture Division -->
+  <div class="profile">
+    <div class = left-align-profile>
+      <div class="profile-div">
+        <a th:href="@{~/account}" class="profile-link">
+        <div class="picture">
+          <img th:src="'data:image/png;base64,'+${loggedUser.imageBase64}">
+        </div>
+        <span th:text="${loggedUser.fName}+' '+${loggedUser.lName}"></span>
+        </a>
+      </div>
+      <div style="height: 8px;"></div>
+      <div class="drop-down-profile">
+        <div class="dropdown-element"><a th:href="@{~/home}"><img th:src="@{~/images/drop-down/home_alt_outline.svg}" class="element-image" alt="Home">Home</a><br></div>
+        <div class="dropdown-element"><a th:href="@{~/my-bookings}"><img th:src="@{~/images/drop-down/calendar_check.svg}" class="element-image" alt="Reservations">My Reservations</a><br></div>
+        <div class="dropdown-element"><a href="#"><img th:src="@{~/images/drop-down/help_circle_outline.svg}" class="element-image" alt="Help">Help & Support</a><br></div>
+        <div class="dropdown-element"><a href="#"><img th:src="@{~/images/drop-down/message.svg}" class="element-image" alt="Feedback">Feedback</a><br></div>
+        <div class="dropdown-element"><a th:href="@{/logout}" style="color: #f95d5d;"><img th:src="@{~/images/drop-down/log_out.svg}" class="element-image" alt="Logout">Logout</a><br></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div th:fragment="search-bar-normal" class="head">
+
+  <!-- Logo Division -->
+  <div class="logo-div" style="flex: 1.5;">
+    <a th:href="@{/home}">
+      <img th:src="@{~/images/logos/logopng.png}" alt="Logo" class="logo">
+    </a>
+  </div>
+
+  <!-- Search Division -->
+  <div class="search-div">
+
+    <!-- Input Box -->
+    <div style="flex: 1;">
+      <label>
+        <input placeholder="Search Bikes..." class="search">
+      </label>
+    </div>
+
+    <!-- Search Button -->
+    <div>
+      <button class="search-button" onclick="
+      if (document.getElementsByClassName('search').item(0).value!=='')
+      window.location='/search/'+document.getElementsByClassName('search').item(0).value">
+        <img th:src="@{~/images/search.png}" alt="Go">
+      </button>
+    </div>
+  </div>
+
+  <!-- Profile Picture Division -->
+  <div class="profile">
+    <div class = left-align-profile>
+      <div class="profile-div">
+        <a th:href="@{~/account}" class="profile-link">
+        <div class="picture">
+          <img th:src="'data:image/png;base64,'+${loggedUser.imageBase64}">
+        </div>
+        <span th:text="${loggedUser.fName}+' '+${loggedUser.lName}"></span>
+        </a>
+      </div>
+      <div style="height: 6px;"></div>
+      <div class="drop-down-profile">
+        <div class="dropdown-element"><a th:href="@{~/account}"><img th:src="@{~/images/drop-down/user.svg}" class="element-image" alt="User">Account Settings</a><br></div>
+        <div class="dropdown-element"><a th:href="@{~/my-bookings}"><img th:src="@{~/images/drop-down/calendar_check.svg}" class="element-image" alt="Reservations">My Reservations</a><br></div>
+        <div class="dropdown-element"><a href="#"><img th:src="@{~/images/drop-down/help_circle_outline.svg}" class="element-image" alt="Help">Help & Support</a><br></div>
+        <div class="dropdown-element"><a href="#"><img th:src="@{~/images/drop-down/message.svg}" class="element-image" alt="Feedback">Feedback</a><br></div>
+        <div class="dropdown-element"><a th:href="@{~/logout}" style="color: #f95d5d;"><img th:src="@{~/images/drop-down/log_out.svg}" class="element-image" alt="Logout">Logout</a><br></div>
+      </div>
+    </div>
+  </div>
+
+</div>

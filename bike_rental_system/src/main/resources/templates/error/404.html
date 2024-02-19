@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link th:href="@{~/css/application.css}" rel="stylesheet">
+
+    <link href='https://fonts.googleapis.com/css?family=Suez+One' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Blinker' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Rammetto+One' rel='stylesheet'>
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{~/images/motorcycle-solid.svg}">
+
+    <title>Error || BikeSapati</title>
+</head>
+<body>
+<header>
+  <div class="head">
+    <div class="logo-div" style="flex: 1.5;">
+      <a th:href="@{/home}">
+        <img th:src="@{~/images/logos/logopng.png}" alt="Logo" class="logo">
+      </a>
+    </div>
+  </div>
+</header>
+<article>
+    <div class="middle">
+        <div class="display-items" style="width: 100%">
+            <div class="error-container">
+                <div class="text">
+                    <h1>Error 404!</h1>
+                    <p>Looks like you're lost. Let us guide you to a place you're familiar with:</p>
+                    <a th:href="@{/home}">Back To Home Page</a>
+                </div>
+                <img th:src="@{~/images/home-images/error.jpg}">
+            </div>
+        </div>
+    </div>
+</article>
+<footer>
+  <div th:replace="~{fragments/footer.html :: footer}"></div>
+</footer>
+</body>
+</html>

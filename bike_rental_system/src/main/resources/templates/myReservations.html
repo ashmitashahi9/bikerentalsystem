@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link th:href="@{~/css/application.css}" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+  <link href='https://fonts.googleapis.com/css?family=Suez+One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Rammetto+One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Fjord+One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Blinker' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Artifika' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+  <link rel="shortcut icon" type="image/x-icon" th:href="@{~/images/motorcycle-solid.svg}">
+
+  <title>History || BikeSapati</title>
+</head>
+<body>
+<header>
+  <div th:replace="~{fragments/searchBar.html :: search-bar-normal}"></div>
+  <div th:if="${errorMessage}">
+    <div th:replace="~{fragments/message.html :: errorMessage-div}"></div>
+  </div>
+  <script th:src="@{~/javascript/message.js}"></script>
+</header>
+<article>
+  <div class="middle">
+    <!-- Body -->
+    <div class="display-items" style="width: 100%;">
+      <div th:if="${reservations.get('Upcoming').isEmpty() && reservations.get('Current').isEmpty() && reservations.get('Yesterday').isEmpty() && reservations.get('Earlier This Week').isEmpty() && reservations.get('Last Week').isEmpty() && reservations.get('Earlier This Month').isEmpty() && reservations.get('Last Month').isEmpty() && reservations.get('A Long Time Ago').isEmpty()}" class="error-container">
+          <div class="text">
+            <h1>Empty!</h1>
+            <p>There is nothing here. But we can take you to a busy place:</p>
+            <a th:href="@{/home}">Back To Home Page</a>
+          </div>
+          <img th:src="@{~/images/home-images/error.jpg}">
+      </div>
+
+      <div th:if="${!reservations.get('Upcoming').isEmpty()}" class="items-container">
+        <div class="topic">
+          <h3>Upcoming Reservation</h3>
+        </div>
+        <div class="items">
+          <div class="position" th:each="bike : ${reservations.get('Upcoming')}" style="background-image: linear-gradient(to bottom right, #e53e3e, #e94d4d)">
+            <span><a th:href="@{~/booking/cancel/}+${bike.id}">Cancel Booking</a></span>
+          <div class="item">
+            <a th:href="@{~/bike/}+${bike.bikeId.id}" style="text-decoration: none; color: white">
+              <div class="item-image" style="display: block">
+                <img th:src="'data:image/png;base64,'+${bike.bikeId.bikeImageBase64}">
+                <div class="image-details">
+                  <h4 style="margin-bottom:14px; margin-top:0">Booking Details:</h4>
+                  <div class="field-container">
+                    <div class="headings">Booked Date</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${#dates.format(bike.bookingDate, 'dd-MM-yyyy')}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Return Date</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${#dates.format(bike.releaseDate, 'dd-MM-yyyy')}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">No. of Days</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${bike.bikeId.rentedNumber}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Total Price</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="'Rs. '+${bike.bikeId.priceDay}"></div>
+                  </div>
+
+                </div>
+              </div>
+              <hr style="width:90%">
+              <div class="bike-brand" th:text="${bike.bikeId.brandName}"></div>
+              <div class="bike-name" th:text="${bike.bikeId.bikeName}"></div>
+            </a>
+          </div>
+          </div>
+        </div>
+        <hr>
+      </div>
+      <div th:if="${!reservations.get('Current').isEmpty()}" class="items-container">
+        <div class="topic">
+          <h3>Current Reservation</h3>
+        </div>
+        <div class="items">
+          <div th:each="bike : ${reservations.get('Current')}" class="item">
+            <a th:href="@{~/bike/}+${bike.bikeId.id}" style="text-decoration: none; color: white">
+              <div class="item-image" style="display: block">
+                <img th:src="'data:image/png;base64,'+${bike.bikeId.bikeImageBase64}">
+                <div class="image-details">
+                  <h4 style="margin-bottom:14px; margin-top:0">Booking Details:</h4>
+                  <div class="field-container">
+                    <div class="headings">Booked Date</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${#dates.format(bike.bookingDate, 'dd-MM-yyyy')}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Return Date</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${#dates.format(bike.releaseDate, 'dd-MM-yyyy')}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">No. of Days</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${bike.bikeId.power}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Total Price</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${bike.bikeId.priceDay}"></div>
+                  </div>
+
+                </div>
+              </div>
+              <hr style="width:90%">
+              <div class="bike-brand" th:text="${bike.bikeId.brandName}"></div>
+              <div class="bike-name" th:text="${bike.bikeId.bikeName}"></div>
+            </a>
+          </div>
+        </div>
+        <hr>
+      </div>
+      <div th:if="${!reservations.get('Yesterday').isEmpty()}" class="items-container">
+        <div class="topic">
+          <h3>Yesterday</h3>
+        </div>
+        <div class="items">
+          <div th:each="bike : ${reservations.get('Yesterday')}" class="item">
+            <a th:href="@{~/bike/}+${bike.bikeId.id}" style="text-decoration: none; color: white">
+              <div class="item-image" style="display: block">
+                <img th:src="'data:image/png;base64,'+${bike.bikeId.bikeImageBase64}">
+                <div class="image-details">
+                  <h4 style="margin-bottom:14px; margin-top:0">Booking Details:</h4>
+                  <div class="field-container">
+                    <div class="headings">Booked Date</div>
+                    
+                    <div class="divider"></div>
+                    <div class="data" th:text="${#dates.format(bike.bookingDate, 'dd-MM-yyyy')}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Return Date</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${#dates.format(bike.releaseDate, 'dd-MM-yyyy')}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">No. of Days</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${bike.bikeId.power}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Total Price</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${bike.bikeId.priceDay}"></div>
+                  </div>
+
+                </div>
+              </div>
+              <hr style="width:90%">
+              <div class="bike-brand" th:text="${bike.bikeId.brandName}"></div>
+              <div class="bike-name" th:text="${bike.bikeId.bikeName}"></div>
+            </a>
+          </div>
+        </div>
+        <hr>
+      </div>
+      <div th:if="${!reservations.get('Earlier This Week').isEmpty()}" class="items-container">
+        <div class="topic">
+          <h3>This Past Week</h3>
+        </div>
+        <div class="items">
+          <div th:each="bike : ${reservations.get('Earlier This Week')}" class="item">
+            <a th:href="@{~/bike/}+${bike.bikeId.id}" style="text-decoration: none; color: white">
+              <div class="item-image" style="display: block">
+                <img th:src="'data:image/png;base64,'+${bike.bikeId.bikeImageBase64}">
+                <div class="image-details">
+                  <h4 style="margin-bottom:14px; margin-top:0">Booking Details:</h4>
+                  <div class="field-container">
+                    <div class="headings">Booked Date</div>
+                    
+                    <div class="divider"></div>
+                    <div class="data" th:text="${#dates.format(bike.bookingDate, 'dd-MM-yyyy')}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Return Date</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${#dates.format(bike.releaseDate, 'dd-MM-yyyy')}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">No. of Days</div>
+                    
+                    <div class="divider"></div>
+                    <div class="data" th:text="${bike.bikeId.power}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Total Price</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${bike.bikeId.priceDay}"></div>
+                  </div>
+
+                </div>
+              </div>
+              <hr style="width:90%">
+              <div class="bike-brand" th:text="${bike.bikeId.brandName}"></div>
+              <div class="bike-name" th:text="${bike.bikeId.bikeName}"></div>
+            </a>
+          </div>
+        </div>
+        <hr>
+      </div>
+      <div th:if="${!reservations.get('Last Week').isEmpty()}" class="items-container">
+        <div class="topic">
+          <h3>More Than a Week Ago</h3>
+        </div>
+        <div class="items">
+          <div th:each="bike : ${reservations.get('Last Week')}" class="item">
+            <a th:href="@{~/bike/}+${bike.bikeId.id}" style="text-decoration: none; color: white">
+              <div class="item-image" style="display: block">
+                <img th:src="'data:image/png;base64,'+${bike.bikeId.bikeImageBase64}">
+                <div class="image-details">
+                  <h4 style="margin-bottom:14px; margin-top:0">Booking Details:</h4>
+                  <div class="field-container">
+                    <div class="headings">Booked Date</div>
+                    
+                    <div class="divider"></div>
+                    <div class="data" th:text="${#dates.format(bike.bookingDate, 'dd-MM-yyyy')}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Return Date</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${#dates.format(bike.releaseDate, 'dd-MM-yyyy')}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">No. of Days</div>
+                    
+                    <div class="divider"></div>
+                    <div class="data" th:text="${bike.bikeId.power}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Total Price</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${bike.bikeId.priceDay}"></div>
+                  </div>
+
+                </div>
+              </div>
+              <hr style="width:90%">
+              <div class="bike-brand" th:text="${bike.bikeId.brandName}"></div>
+              <div class="bike-name" th:text="${bike.bikeId.bikeName}"></div>
+            </a>
+          </div>
+        </div>
+        <hr>
+      </div>
+      <div th:if="${!reservations.get('Earlier This Month').isEmpty()}" class="items-container">
+        <div class="topic">
+          <h3>This Past Month</h3>
+        </div>
+        <div class="items">
+          <div th:each="bike : ${reservations.get('Earlier This Month')}" class="item">
+            <a th:href="@{~/bike/}+${bike.bikeId.id}" style="text-decoration: none; color: white">
+              <div class="item-image" style="display: block">
+                <img th:src="'data:image/png;base64,'+${bike.bikeId.bikeImageBase64}">
+                <div class="image-details">
+                  <h4 style="margin-bottom:14px; margin-top:0">Booking Details:</h4>
+                  <div class="field-container">
+                    <div class="headings">Booked Date</div>
+                    
+                    <div class="divider"></div>
+                    <div class="data" th:text="${#dates.format(bike.bookingDate, 'dd-MM-yyyy')}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Return Date</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${#dates.format(bike.releaseDate, 'dd-MM-yyyy')}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">No. of Days</div>
+                    
+                    <div class="divider"></div>
+                    <div class="data" th:text="${bike.bikeId.power}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Total Price</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${bike.bikeId.priceDay}"></div>
+                  </div>
+
+                </div>
+              </div>
+              <hr style="width:90%">
+              <div class="bike-brand" th:text="${bike.bikeId.brandName}"></div>
+              <div class="bike-name" th:text="${bike.bikeId.bikeName}"></div>
+            </a>
+          </div>
+        </div>
+        <hr>
+      </div>
+      <div th:if="${!reservations.get('Last Month').isEmpty()}" class="items-container">
+        <div class="topic">
+          <h3>More Than a Month Ago</h3>
+        </div>
+        <div class="items">
+          <div th:each="bike : ${reservations.get('Last Month')}" class="item">
+            <a th:href="@{~/bike/}+${bike.bikeId.id}" style="text-decoration: none; color: white">
+              <div class="item-image" style="display: block">
+                <img th:src="'data:image/png;base64,'+${bike.bikeId.bikeImageBase64}">
+                <div class="image-details">
+                  <h4 style="margin-bottom:14px; margin-top:0">Booking Details:</h4>
+                  <div class="field-container">
+                    <div class="headings">Booked Date</div>
+                    
+                    <div class="divider"></div>
+                    <div class="data" th:text="${#dates.format(bike.bookingDate, 'dd-MM-yyyy')}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Return Date</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${#dates.format(bike.releaseDate, 'dd-MM-yyyy')}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">No. of Days</div>
+                    
+                    <div class="divider"></div>
+                    <div class="data" th:text="${bike.bikeId.power}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Total Price</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${bike.bikeId.priceDay}"></div>
+                  </div>
+
+                </div>
+              </div>
+              <hr style="width:90%">
+              <div class="bike-brand" th:text="${bike.bikeId.brandName}"></div>
+              <div class="bike-name" th:text="${bike.bikeId.bikeName}"></div>
+            </a>
+          </div>
+        </div>
+        <hr>
+      </div>
+      <div th:if="${!reservations.get('A Long Time Ago').isEmpty()}" class="items-container">
+        <div class="topic">
+          <h3>A Long Time Ago</h3>
+        </div>
+        <div class="items">
+          <div th:each="bike : ${reservations.get('A Long Time Ago')}" class="item">
+            <a th:href="@{~/bike/}+${bike.bikeId.id}" style="text-decoration: none; color: white">
+              <div class="item-image" style="display: block">
+                <img th:src="'data:image/png;base64,'+${bike.bikeId.bikeImageBase64}">
+                <div class="image-details">
+                  <h4 style="margin-bottom:14px; margin-top:0">Booking Details:</h4>
+                  <div class="field-container">
+                    <div class="headings">Booked Date</div>
+                    
+                    <div class="divider"></div>
+                    <div class="data" th:text="${#dates.format(bike.bookingDate, 'dd-MM-yyyy')}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Return Date</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${#dates.format(bike.releaseDate, 'dd-MM-yyyy')}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">No. of Days</div>
+                    
+                    <div class="divider"></div>
+                    <div class="data" th:text="${bike.bikeId.power}"></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Total Price</div>
+                    <div class="divider"></div>
+                    <div class="data" th:text="${bike.bikeId.priceDay}"></div>
+                  </div>
+
+                </div>
+              </div>
+              <hr style="width:90%">
+              <div class="bike-brand" th:text="${bike.bikeId.brandName}"></div>
+              <div class="bike-name" th:text="${bike.bikeId.bikeName}"></div>
+            </a>
+          </div>
+        </div>
+        <hr>
+      </div>
+    </div>
+  </div>
+
+</article>
+
+<footer>
+  <div th:replace="~{fragments/footer.html :: footer}"></div>
+</footer>
+</body>
+</html>
+
+<!--yesterday-->
+<!--earlier this week-->
+<!--last week-->
+<!--earlier this month-->
+<!--last month-->
+<!--a long time ago-->

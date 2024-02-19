@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings || BikeSapati</title>
+
+  <link th:href="@{~/css/login.css}" rel="stylesheet">
+  <link th:href="@{~/css/settings.css}" rel="stylesheet">
+  <link th:href="@{~/css/application.css}" rel="stylesheet">
+  <link th:href="@{~/css/admin.css}" rel="stylesheet">
+
+  <link href='https://fonts.googleapis.com/css?family=Blinker' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Suez+One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Rammetto+One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Artifika' rel='stylesheet'>
+
+  <link rel="shortcut icon" type="image/x-icon" th:href="@{~/images/motorcycle-solid.svg}">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+  <script th:src="@{~/javascript/account.js}" defer></script>
+</head>
+<body>
+<nav th:replace="~{fragments/adminNavbar.html :: navBar}"></nav>
+<div th:if="${message}">
+  <div th:replace="~{fragments/message.html :: message-div}"></div>
+</div>
+<script th:src="@{~/javascript/message.js}"></script>
+<script>
+  navItems=document.getElementsByTagName("a");
+  for (let i=0; i<navItems.length; i++){
+    if (navItems.item(i).classList.contains("active")){
+      navItems.item(i).classList.remove("active");
+    }
+  }
+  navItems.item(5).classList.add("active");
+</script>
+<article>
+  <div class="settings-container">
+    <h3>General Settings</h3>
+    <form class="general-container" th:method="post" th:action="@{/updateGeneral/}+${loggedUser.id}" th:object="${loggedUser}" enctype="multipart/form-data">
+
+      <div class="general-form-container">
+        <div class="text-inputs">
+
+          <div class="field-container">
+            <div class="headings">Name</div>
+
+            <div class="divider"></div>
+
+            <div class="fields">
+              <div class="text-input-container-short">
+                <div class="text-input-container">
+                  <input type="text" th:field="*{fName}" th:value="${loggedUser.fName}" placeholder="First Name..." class="text-input" onkeyup="validateName(0)">
+                  <i class="fas fa-user fa-xs"><span class='toolTipTextInvalid'>Name can't be empty!</span></i>
+                </div>
+
+                <div class="text-input-container">
+                  <input type="text" th:field="*{lName}" th:value="${loggedUser.lName}" placeholder="Last Name..." class="text-input" onkeyup="validateName(1)">
+                  <i class="fas fa-user fa-xs"><span class='toolTipTextInvalid'>Name can't be empty!</span></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field-container">
+            <div class="headings">Phone</div>
+
+            <div class="divider"></div>
+
+            <div class="fields">
+              <div class="text-input-container">
+                <input type="tel" th:field="*{mobileNo}" th:value="${loggedUser.mobileNo}" placeholder="Phone Number..." class="text-input" onkeyup="validatePhone()">
+                <i class="fas fa-phone fa-xs fa-flip-horizontal"><span class='toolTipTextInvalid'>Phone can't be empty!</span></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="field-container">
+            <div class="headings">Address</div>
+
+            <div class="divider"></div>
+
+            <div class="fields">
+              <div class="text-input-container">
+                <input type="text" th:field="*{address}" th:value="${loggedUser.address}" placeholder="Address..." class="text-input" onkeyup="validateAddress()">
+                <i class="fa fa-map-marker-alt fa-xs"><span class='toolTipTextInvalid'>Address can't be empty!</span></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="image-inputs">
+          <div class="picture-uploader" th:if="${loggedUser.getImage()!='profile-picture\user.png'}" style="border: 2px solid #71cc35;">
+            <div class="no-image">
+              <img th:src="'data:image/png;base64,'+${loggedUser.imageBase64}" id="ItemPreview">
+              <span id="imageCheck" class='toolTipTextValid'>Accepted!</span>
+            </div>
+
+            <div class="upload">
+              <input type="file" accept="image/png, image/jpeg" th:field="*{image}" th:value="${loggedUser.image}" class="input-img" id="profile-pic" onchange=addImage()>
+              <label for="profile-pic"><i class="fas fa-upload"></i>Change</label>
+            </div>
+          </div>
+
+          <div class="picture-uploader" th:if="${loggedUser.getImage()=='profile-picture\user.png'}" style="border: 2px solid #e53e3e;">
+            <div class="no-image">
+              <img th:src="'data:image/png;base64,'+${loggedUser.imageBase64}" id="ItemPreview">
+              <span id="imageCheck" class='toolTipTextInvalid'>No image found!</span>
+            </div>
+
+            <div class="upload">
+              <input type="file" accept="image/png, image/jpeg" th:field="*{image}" th:value="${loggedUser.image}" class="input-img" id="profile-pic" onchange=addImage()>
+              <label for="profile-pic"><i class="fas fa-upload"></i>Change</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="submit-div">
+        <button type="button" class="submit" onclick="validateSubmitButton('general-container',0)">SAVE CHANGES</button>
+      </div>
+
+    </form>
+
+    <hr width="96%">
+    <h3>Change Password</h3>
+          <form class="general-container password-change-container" th:method="post" th:action="@{/change}" th:object="${passwordChangePojo}">
+
+            <div class="general-form-container">
+              <div class="text-inputs">
+                <div class="field-container">
+                  <div class="headings">Current</div>
+
+                  <div class="divider"></div>
+
+                  <div class="fields" style="width: 70%">
+                    <div class="password-input-container" style="margin-top: 0">
+                      <input type="password" th:field="*{oldPassword}" th:value="${passwordChangePojo.oldPassword}" placeholder="Current password..." class="password-input" onkeyup="validatePassword(0)">
+                      <i class="fas fa-lock fa-xs"><span class='toolTipTextInvalid' style='width: 150px; margin-left: -75px'>Password can't be empty!</span></i>
+                      <button class="show-password-button" type="button" onclick="showPassword(0)"><i class="fas fa-eye"></i></button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field-container">
+              <div class="headings">New</div>
+
+              <div class="divider"></div>
+
+              <div class="fields" style="width: 70%">
+                <div class="password-input-container" style="margin-top: 0">
+                  <input type="password" th:field="*{newPassword}" th:value="${passwordChangePojo.newPassword}" placeholder="New password..." class="password-input" onkeyup="validatePassword(1)">
+                  <i class="fas fa-lock fa-xs"><span class='toolTipTextInvalid' style='width: 150px; margin-left: -75px'>Password can't be empty!</span></i>
+                  <button class="show-password-button" type="button" onclick="showPassword(1)"><i class="fas fa-eye"></i></button>
+                </div>
+              </div>
+            </div>
+
+                <div class="field-container">
+              <div class="headings">Confirm</div>
+
+              <div class="divider"></div>
+
+              <div class="fields" style="width: 70%">
+                <div class="password-input-container" style="margin-top: 0">
+                  <input type="password" th:field="*{repeatPassword}" th:value="${passwordChangePojo.repeatPassword}" placeholder="Confirm password..." class="password-input" onkeyup="validatePassword(2)">
+                  <i class="fas fa-lock fa-xs"><span class='toolTipTextInvalid' style='width: 150px; margin-left: -75px'>Password can't be empty!</span></i>
+                  <button class="show-password-button" type="button" onclick="showPassword(2)"><i class="fas fa-eye"></i></button>
+                </div>
+              </div>
+            </div>
+              </div>
+            </div>
+
+            <div class="submit-div" style="margin-top: 20px">
+              <button class="submit" type="button" onclick="validateSubmitButton('password-change-container',1)">UPDATE</button>
+            </div>
+          </form>
+  </div>
+</article>
+</body>
+</html>

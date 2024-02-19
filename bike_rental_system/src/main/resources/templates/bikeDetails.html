@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link th:href="@{~/css/settings.css}" rel="stylesheet">
+  <link th:href="@{~/css/application.css}" rel="stylesheet">
+  <link th:href="@{~/css/bike.css}" rel="stylesheet">
+
+  <link href='https://fonts.googleapis.com/css?family=Suez+One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Rammetto+One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Blinker' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Artifika' rel='stylesheet'>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+  <link rel="shortcut icon" type="image/x-icon" th:href="@{~/images/motorcycle-solid.svg}">
+
+  <script th:src="@{~/javascript/bikeFunctions.js}" defer></script>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+          integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+          crossorigin="anonymous">
+  </script>
+
+  <title th:text="${bike.bikeName}+' || BikeSapati'"></title>
+</head>
+<body>
+
+<header>
+  <div th:replace="~{fragments/searchBar.html :: search-bar-normal}"></div>
+</header>
+<script th:src="@{~/javascript/message.js}"></script>
+
+<article>
+  <div class="payment-popup">
+    <div class="item">
+      <div class="item-image">
+        <img th:src="'data:image/png;base64,'+${bike.bikeImageBase64}">
+      </div>
+      <hr style="width:90%">
+      <div class="bike-brand" th:text="${bike.brandName}"></div>
+      <div class="bike-name" th:text="${bike.bikeName}"></div>
+    </div>
+    <div class="booking-period">
+      <h3 style="margin-top: 2px; margin-bottom: 20px; font-size: 30px">Confirm Booking</h3>
+      <form class="popup-field-container" th:method="post" th:action="@{/book/}+${bike.id}" th:object="${booking}">
+        <input hidden type="text" id="bike-id" name="bikeId" th:value="${bike.id}">
+        <div class="field-container" style="width: 100%">
+          <div class="headings">From:</div>
+          <input type="date" class="date-input" id="bookingDate" onkeydown="return false;" th:attr="onchange=|priceSetter(${bike.priceDay})|" th:field="*{bookingDate}">
+        </div>
+
+        <div class="field-container" style="width: 100%">
+          <div class="headings">To:</div>
+          <input type="date" class="date-input" id="releaseDate" onkeydown="return false;" th:attr="onchange=|priceSetter(${bike.priceDay})|" th:field="*{releaseDate}">
+        </div>
+
+        <div class="field-container" style="width: 100%">
+          <div class="headings">Price:</div>
+          <input type="text" disabled class="date-input" id="priceField">
+        </div>
+
+        <div class="submit-div" style="margin-top: 10px; margin-bottom: 0">
+          <button type="submit" class="submit">CONFIRM</button>
+          <button type="button" class="submit" onclick="bookingForm(0)" style="background-color: rgb(233, 77, 77); border: 2px solid red">CANCEL</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="middle">
+    <div class="display-items" style="width: 100%;">
+      <div class="items-container">
+        <div class="topic">
+          <div class="see-more">
+            <a th:href="@{/home}">⮜ <u>Back</u></a>
+          </div>
+          <span th:text="${bike.brandName}" class="desc"></span>
+        </div>
+        <h3 th:text="${bike.bikeName}"></h3>
+        <div class="bike-details-container">
+          <div class="bike-image-container">
+            <img th:src="'data:image/png;base64,'+${bike.bikeImageBase64}">
+          </div>
+          <div class="bike-data-container">
+            <div class="specifications">
+              <h2><u>Specifications</u></h2>
+
+              <div class="field-container">
+                <div th:if="${bike.category.id==6}" class="headings">Range</div>
+                <div th:unless="${bike.category.id==6}" class="headings">Mileage</div>
+                <div class="divider"></div>
+                <div class="data"><u th:text="${bike.mileage}"></u></div>
+              </div>
+
+              <div class="field-container">
+                <div th:if="${bike.category.id==6}" class="headings">Motor</div>
+                <div th:unless="${bike.category.id==6}" class="headings">Engine</div>
+                <div class="divider"></div>
+                <div class="data"><u th:text="${bike.power}"></u></div>
+              </div>
+
+              <div class="field-container">
+                <div class="headings">Top Speed</div>
+                <div class="divider"></div>
+                <div class="data"><u th:text="${bike.topSpeed}+' km/hr'"></u></div>
+              </div>
+
+              <div class="field-container">
+                <div class="headings">Transmission</div>
+                <div class="divider"></div>
+                <div class="data"><u  th:text="${bike.transmission}"></u></div>
+              </div>
+
+              <div class="field-container">
+                <div th:if="${bike.category.id==6}" class="headings">Battery</div>
+                <div th:unless="${bike.category.id==6}" class="headings">Tank Capacity</div>
+                <div class="divider"></div>
+                <div class="data"><u th:text="${bike.tankCapacity}"></u></div>
+              </div>
+
+              <div class="field-container">
+                <div class="headings">Max Torque</div>
+                <div class="divider"></div>
+                <div class="data"><u th:text="${bike.maxTorque}"></u></div>
+              </div>
+            </div>
+
+            <div class="divider" style="margin-top: 24px; margin-bottom: 24px;"></div>
+
+            <div class="prices" th:if="${loggedUser.status=='Approved' && notBookedCurrently && bike.availableNo>0}">
+              <p><u>Choose an option:</u></p>
+              <input hidden class="priceInvisible" th:value="${bike.priceDay}">
+              <button class="price" th:text="${bike.priceDay}" onclick="bookingForm(1)"></button>
+              <button class="price" th:text="${bike.priceDay} + (0.8*${bike.priceDay}*6) + (0.6*${bike.priceDay}*23)" onclick="bookingForm(30)"></button>
+              <button class="price" th:text="${bike.priceDay} + (0.8*${bike.priceDay}*6) + (0.6*${bike.priceDay}*23) + (0.5*${bike.priceDay}*92) + (0.4*${bike.priceDay}*243)" onclick="bookingForm(365)"></button>
+            </div>
+            <div class="prices" th:if="${loggedUser.status!='Approved'}">
+              <input hidden class="priceInvisible" th:value="${bike.priceDay}">
+              <span>Please, fill in the required details and submit your documents to rent your bike <a th:href="@{~/account}">here.</a></span>
+            </div>
+            <div class="prices" th:if="${!notBookedCurrently && loggedUser.status=='Approved'}">
+              <input hidden class="priceInvisible" th:value="${bike.priceDay}">
+              <span>A user is only permitted to have one booking at a time. If your booking date has not yet arrived, you can cancel your reservation <a th:href="@{~/my-bookings}">here</a>.</span>
+            </div>
+            <div class="prices" th:if="${bike.availableNo<1 && notBookedCurrently && loggedUser.status=='Approved'}">
+              <input hidden class="priceInvisible" th:value="${bike.priceDay}">
+              <span>This bike is not available at the moment. Please try again in a few days. Thank you for your understanding.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="similar-container" th:object="${similarBikes}" style="margin-bottom: 30px">
+          <h2 style="padding-left: 4%; margin-top: 42px;">More Options to Consider</h2>
+          <div class="items" style="padding-top: 0;">
+            <div class="item" th:each="item:${similarBikes}">
+              <a th:href="@{~/bike/}+${item.id}" style="text-decoration: none">
+              <div class="item-image">
+                <img th:src="'data:image/png;base64,'+${item.bikeImageBase64}">
+                <div class="image-details">
+                  <h4 style="margin-bottom:14px; margin-top:0">Bike Specifications:</h4>
+                  <div class="field-container">
+                    <div th:if="${item.category.id==6}" class="headings">Range</div>
+                    <div th:unless="${item.category.id==6}" class="headings">Mileage</div>
+                    <div class="divider"></div>
+                    <div class="data"><u th:text="${item.mileage}"></u></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Top Speed</div>
+                    <div class="divider"></div>
+                    <div class="data"><u th:text="${item.topSpeed}+' km/hr'"></u></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div th:if="${item.category.id==6}" class="headings">Motor</div>
+                    <div th:unless="${item.category.id==6}" class="headings">Engine</div>
+                    <div class="divider"></div>
+                    <div class="data"><u th:text="${item.power}"></u></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Price</div>
+                    <div class="divider"></div>
+                    <div class="data"><u th:text="'Rs. '+${item.priceDay}+' / Day'"></u></div>
+                  </div>
+                </div>
+              </div>
+              <hr style="width:90%">
+              <div class="bike-brand" th:text="${item.brandName}"></div>
+              <div class="bike-name" th:text="${item.bikeName}"></div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+<footer>
+  <div th:replace="~{fragments/footer.html :: footer}"></div>
+</footer>
+
+</body>
+</html>

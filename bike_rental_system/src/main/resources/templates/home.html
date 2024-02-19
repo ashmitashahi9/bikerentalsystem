@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link th:href="@{~/css/application.css}" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <link href='https://fonts.googleapis.com/css?family=Suez+One' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Rammetto+One' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Fjord+One' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Blinker' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Artifika' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <script th:src="@{~/javascript/hideDivision.js}" defer></script>
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{~/images/motorcycle-solid.svg}">
+
+    <title>Bikes || BikeSapati</title>
+</head>
+<body>
+    <header>
+        <div th:replace="~{fragments/searchBar.html :: search-bar-normal}"></div>
+        <div th:if="${message}">
+            <div th:replace="~{fragments/message.html :: message-div}"></div>
+        </div>
+        <script th:src="@{~/javascript/message.js}"></script>
+    </header>
+    <article>
+        <div class="middle">
+            <!-- Body -->
+            <div class="display-items">
+                <div class="items-container">
+                    <div class="topic"><button type="button" class="hideDivButton" id="Most Rented">Most Rented &#9652;</button></div>
+                    <div class="items" id="Most Rented Div">
+                        <div class="position" th:each="rented:${mostRented}">
+                            <span></span>
+                            <div class="item">
+                                <a th:href="@{~/bike/}+${rented.id}" style="text-decoration: none; color: white">
+                                <div class="item-image">
+                                    <img th:src="'data:image/png;base64,'+${rented.bikeImageBase64}">
+                                    <div class="image-details">
+                                        <h4 style="margin-bottom:14px; margin-top:0">Bike Specifications:</h4>
+                                        <div class="field-container">
+                                            <div th:if="${rented.category.id==6}" class="headings">Range</div>
+                                            <div th:unless="${rented.category.id==6}" class="headings">Mileage</div>
+                                            <div class="divider"></div>
+                                            <div class="data"><u th:text="${rented.mileage}"></u></div>
+                                        </div>
+
+                                        <div class="field-container">
+                                            <div class="headings">Top Speed</div>
+                                            <div class="divider"></div>
+                                            <div class="data"><u th:text="${rented.topSpeed}+' km/hr'"></u></div>
+                                        </div>
+
+                                        <div class="field-container">
+                                            <div th:if="${rented.category.id==6}" class="headings">Motor</div>
+                                            <div th:unless="${rented.category.id==6}" class="headings">Engine</div>
+                                            <div class="divider"></div>
+                                            <div class="data"><u th:text="${rented.power}"></u></div>
+                                        </div>
+
+                                        <div class="field-container">
+                                            <div class="headings">Price</div>
+                                            <div class="divider"></div>
+                                            <div class="data"><u th:text="'Rs. '+${rented.priceDay}+' / Day'"></u></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr style="width:90%">
+                                <div class="bike-brand" th:text="${rented.brandName}"></div>
+                                <div class="bike-name" th:text="${rented.bikeName}"></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+
+                <script>
+                    spanNumber = document.getElementsByTagName("span");
+                    idNumber = document.getElementsByClassName("position");
+                    for (let i=1; i<5; i++){
+                        spanNumber[i].innerText="#"+i;
+                        idNumber[i-1].setAttribute("id","pos"+i);
+                    }
+                </script>
+
+                <div th:each="element : ${categoryBike}" class="items-container">
+                    <div class="topic">
+                        <div class="see-more">
+                            <a th:href="@{~/category/}+${element.key.id}">
+                                <u>See All</u> ⮞</a>
+                        </div>
+                        <button type="button" class="hideDivButton" th:text="${element.key.categoryName}+' &#9652;'" th:id="${element.key.categoryName}"></button>
+                    </div>
+                    <div class="items" th:id="${element.key.categoryName}+' Div'">
+                        <div th:each="bike : ${element.value}" class="item">
+                            <a th:href="@{~/bike/}+${bike.id}" style="text-decoration: none; color: white">
+                            <div class="item-image" style="display: block">
+                                <img th:src="'data:image/png;base64,'+${bike.bikeImageBase64}">
+                                <div class="image-details">
+                                    <h4 style="margin-bottom:14px; margin-top:0">Bike Specifications:</h4>
+                                    <div class="field-container">
+                                        <div th:if="${bike.category.id==6}" class="headings">Range</div>
+                                        <div th:unless="${bike.category.id==6}" class="headings">Mileage</div>
+                                        <div class="divider"></div>
+                                        <div class="data"><u th:text="${bike.mileage}"></u></div>
+                                    </div>
+
+                                    <div class="field-container">
+                                        <div class="headings">Top Speed</div>
+                                        <div class="divider"></div>
+                                        <div class="data"><u th:text="${bike.topSpeed}+' km/hr'"></u></div>
+                                    </div>
+
+                                    <div class="field-container">
+                                        <div th:if="${bike.category.id==6}" class="headings">Motor</div>
+                                        <div th:unless="${bike.category.id==6}" class="headings">Engine</div>
+                                        <div class="divider"></div>
+                                        <div class="data"><u th:text="${bike.power}"></u></div>
+                                    </div>
+
+                                    <div class="field-container">
+                                        <div class="headings">Price</div>
+                                        <div class="divider"></div>
+                                        <div class="data"><u th:text="'Rs. '+${bike.priceDay}+' / Day'"></u></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <hr style="width:90%">
+                            <div class="bike-brand" th:text="${bike.brandName}"></div>
+                            <div class="bike-name" th:text="${bike.bikeName}"></div>
+                            </a>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+
+    </article>
+
+    <footer>
+        <div th:replace="~{fragments/footer.html :: footer}"></div>
+    </footer>
+</body>
+</html>

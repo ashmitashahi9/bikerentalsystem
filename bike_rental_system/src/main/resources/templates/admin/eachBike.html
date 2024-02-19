@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Bikes || BikeSapati</title>
+
+  <link th:href="@{~/css/admin.css}" rel="stylesheet">
+  <link th:href="@{~/css/settings.css}" rel="stylesheet">
+  <link th:href="@{~/css/application.css}" rel="stylesheet">
+  <link th:href="@{~/css/bike.css}" rel="stylesheet">
+
+  <link href='https://fonts.googleapis.com/css?family=Suez+One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Rammetto+One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Blinker' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Artifika' rel='stylesheet'>
+
+  <link rel="shortcut icon" type="image/x-icon" th:href="@{~/images/motorcycle-solid.svg}">
+
+  <script th:src="@{~/javascript/bikeFunctions.js}" defer></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+          integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+          crossorigin="anonymous">
+  </script>
+
+</head>
+<body>
+<nav th:replace="~{fragments/adminNavbar.html :: navBar}"></nav>
+<script>
+  navItems=document.getElementsByTagName("a");
+  for (let i=0; i<navItems.length; i++){
+    if (navItems.item(i).classList.contains("active")){
+      navItems.item(i).classList.remove("active");
+    }
+  }
+  navItems.item(2).classList.add("active");
+</script>
+<article>
+  <div class="middle">
+    <div class="display-items" style="width: 100%; padding-top: 12px">
+      <form class="items-container" th:object="${bike}" th:action="@{/bike/save}" th:method="post" enctype="multipart/form-data" style="margin-top: 8px">
+        <div class="topic">
+          <div class="see-more">
+            <a th:href="@{/home}">⮜ <u>Back</u></a>
+          </div>
+          <div class="field-container" style="margin-left: 16px;">
+            <div class="headings" style="font-size: 18px; min-width: 75px">Category</div>
+            <div class="divider"></div>
+            <div class="data">
+              <select th:field="*{category}" class="select" style="padding: 2px;">
+                <option value="" th:if="${bike.category==null}" disabled selected hidden>Category</option>
+                <option th:if="${bike.category!=null && bike.category.id==1}" selected value="1">Commuter</option>
+                <option th:if="${bike.category!=null && bike.category.id==2}" selected value="2">Scooter</option>
+                <option th:if="${bike.category!=null && bike.category.id==3}" selected value="3">Sports</option>
+                <option th:if="${bike.category!=null && bike.category.id==4}" selected value="4">Cruiser</option>
+                <option th:if="${bike.category!=null && bike.category.id==5}" selected value="5">Off-Road</option>
+                <option th:if="${bike.category!=null && bike.category.id==6}" selected value="6">Electric</option>
+                <option th:if="${bike.category!=null && bike.category.id==7}" selected value="7">Street</option>
+                <option th:if="${bike.category!=null && bike.category.id!=1}" value="1">Commuter</option>
+                <option th:if="${bike.category!=null && bike.category.id!=2}" value="2">Scooter</option>
+                <option th:if="${bike.category!=null && bike.category.id!=3}" value="3">Sports</option>
+                <option th:if="${bike.category!=null && bike.category.id!=4}" value="4">Cruiser</option>
+                <option th:if="${bike.category!=null && bike.category.id!=5}" value="5">Off-Road</option>
+                <option th:if="${bike.category!=null && bike.category.id!=6}" value="6">Electric</option>
+                <option th:if="${bike.category!=null && bike.category.id!=7}" value="7">Street</option>
+                <option th:if="${bike.category==null}" value="1">Commuter</option>
+                <option th:if="${bike.category==null}" value="2">Scooter</option>
+                <option th:if="${bike.category==null}" value="3">Sports</option>
+                <option th:if="${bike.category==null}" value="4">Cruiser</option>
+                <option th:if="${bike.category==null}" value="5">Off-Road</option>
+                <option th:if="${bike.category==null}" value="6">Electric</option>
+                <option th:if="${bike.category==null}" value="7">Street</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <input hidden th:field="*{id}">
+
+        <div class="field-container" style="margin-bottom: 20px; margin-left: 16px;">
+          <div class="headings" style="font-size: 18px; min-width: 75px;">Brand</div>
+          <div class="divider"></div>
+          <div class="data"><input th:field="*{brandName}" style="padding: 4px;" class="input-field"></div>
+        </div>
+
+        <div class="field-container" style="margin-bottom: 20px; margin-left: 16px;">
+          <div class="headings" style="font-size: 18px; min-width: 75px">Model</div>
+          <div class="divider"></div>
+          <div class="data"><input th:field="*{bikeName}" style="padding: 4px;" class="input-field"></div>
+        </div>
+
+        <div class="field-container" style="margin-bottom: 20px; margin-left: 16px;">
+          <div class="headings" style="font-size: 18px; min-width: 75px">Available</div>
+          <div class="divider"></div>
+          <div class="data"><input type="number" th:field="*{availableNo}" style="padding: 4px;" class="input-field"></div>
+        </div>
+
+        <div class="bike-details-container" style="height: 400px">
+          <div class="bike-image-container" style="flex: 5">
+            <div class="no-image">
+              <img th:unless="${bike.bikeImageBase64}" th:src="@{~/images/bikeSilhouette.png}" id="ItemPreview">
+              <img th:if="${bike.bikeImageBase64}" th:src="'data:image/png;base64,'+${bike.bikeImageBase64}" id="ItemPreview">
+              <span th:unless="${bike.bikeImageBase64}" id="imageCheck" class='toolTipTextInvalid'>No file selected!</span>
+              <span th:if="${bike.bikeImageBase64}" id="imageCheck" class='toolTipTextValid'>Accepted!</span>
+            </div>
+
+            <div class="upload">
+              <input type="file" th:field="*{bikeImage}" accept="image/png, image/jpeg" class="input-img" id="bike-image" style="display: none;" onchange=addImage()>
+              <label for="bike-image"><i class="fas fa-upload"></i>Change</label>
+            </div>
+
+          </div>
+          <div class="bike-data-container">
+            <div class="specifications">
+              <h2><u>Specifications</u></h2>
+
+              <div class="field-container">
+                <div class="headings">Mileage</div>
+                <div class="divider"></div>
+                <div class="data"><input th:field="*{mileage}" style="padding: 4px;" class="input-field"></div>
+              </div>
+
+              <div class="field-container">
+                <div class="headings">Engine</div>
+                <div class="divider"></div>
+                <div class="data"><input th:field="*{power}" style="padding: 4px;" class="input-field"></div>
+              </div>
+
+              <div class="field-container">
+                <div class="headings">Top Speed</div>
+                <div class="divider"></div>
+                <div class="data"><input type="number" th:field="*{topSpeed}" style="padding: 4px;" class="input-field"></div>
+              </div>
+
+              <div class="field-container">
+                <div class="headings">Transmission</div>
+                <div class="divider"></div>
+                <div class="data"><input th:field="*{transmission}" style="padding: 4px;" class="input-field"></div>
+              </div>
+
+              <div class="field-container">
+                <div class="headings">Tank Capacity</div>
+                <div class="divider"></div>
+                <div class="data"><input th:field="*{tankCapacity}" style="padding: 4px;" class="input-field"></div>
+              </div>
+
+              <div class="field-container">
+                <div class="headings">Max Torque</div>
+                <div class="divider"></div>
+                <div class="data"><input th:field="*{maxTorque}" style="padding: 4px;" class="input-field"></div>
+              </div>
+
+              <div class="field-container">
+                <div class="headings">Price/Day</div>
+                <div class="divider"></div>
+                <div class="data"><input type="number" th:field="*{priceDay}" style="padding: 4px;" class="input-field"></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="submit-div" style="margin-top: 30px">
+          <button type="submit" class="submit">SAVE</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</article>
+<script>
+  function addImage(){
+    let fileInput = document.getElementsByClassName("input-img").item(0);
+    let filePath = fileInput.value;
+
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+
+    if (!allowedExtensions.exec(filePath)) {
+      fileInput.value="";
+      document.getElementsByClassName("no-image").item(0)
+              .innerHTML ="<img src=\"/images/bikeSilhouette.png\" id=\"ItemPreview\">"+
+              "<span class='toolTipTextInvalid' style='width: 200px; font-weight: 900'>Invalid File Format!<br>Accepted Formats: .jpg, .jpeg, .png</span>"
+
+    } else if (fileInput.files[0].size>5242880){
+      document.getElementsByClassName("no-image").item(0)
+              .innerHTML = "<img src='" + URL.createObjectURL(event.target.files[0]) + "' alt='Bike Picture'>"+
+              "<span class='toolTipTextInvalid' style='width: 160px; font-weight: 900'>File Too Large!<br>Maximum File Size: 5MB</span>"
+
+    } else {
+      document.getElementsByClassName("no-image").item(0)
+              .innerHTML = "<img src='" + URL.createObjectURL(event.target.files[0]) + "' alt='Bike Picture'>" +
+              "<span class='toolTipTextValid' style='font-weight: 900'>Accepted!</span>"
+    }
+  }
+</script>
+</body>
+</html>

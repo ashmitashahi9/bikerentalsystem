@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link th:href="@{~/css/login.css}" rel="stylesheet">
+    <link th:href="@{~/css/application.css}" rel="stylesheet">
+
+    <link href='https://fonts.googleapis.com/css?family=Rammetto+One' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Blinker' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Artifika' rel='stylesheet'>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{~/images/motorcycle-solid.svg}">
+
+    <script th:src="@{~/javascript/login.js}" defer></script>
+    <title>Login || BikeSapati</title>
+</head>
+<body>
+
+<header>
+    <div class="head-login">
+
+        <!-- Logo Division -->
+        <div class="logo-div">
+            <img th:src="@{~/images/logos/logopng.png}" alt="Logo" class="logo">
+        </div>
+
+        <ul class="navbar">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">How To</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+        </ul>
+    </div>
+    <div th:if="${message}">
+        <div th:replace="~{fragments/message.html :: message-div}"></div>
+    </div>
+    <div th:if="${errorMessage}">
+        <div th:replace="~{fragments/message.html :: errorMessage-div}"></div>
+    </div>
+    <script th:src="@{~/javascript/message.js}"></script>
+</header>
+
+    <div class="form-container" id="home">
+        <div class="image">
+            <div class="text">
+                <h1>Looking to<br>rent a <span>Bike?</span></h1>
+            </div>
+            <img th:src="@{~/images/home-images/bike.png}" alt="" class="bike-image">
+        </div>
+
+        <div class = "form">
+            <div class="tab-buttons">
+                <button class="login" type="button"><span>Sign in</span></button>
+                <button class="signup" type="button"><span>Register</span></button>
+            </div>
+
+            <div class="login-container">
+                <form class="login-form" th:method="post" th:action="@{/login}">
+                    <div class="text-input-container">
+                        <input type="email" placeholder="Enter your email..." name="email" class="text-input" onkeyup="validateEmail('text-input', 0)">
+                        <i class="fas fa-envelope fa-xs"><span class='toolTipTextInvalid'>Email can't be empty!</span></i>
+                    </div>
+
+                    <div class="password-input-container">
+                        <input type="password" placeholder="Enter your password..." name="password" class="password-input" onkeyup="validatePassword('password-input', 0)">
+                        <i class="fas fa-lock fa-xs"><span class='toolTipTextInvalid' style='width: 150px; margin-left: -75px'>Password can't be empty!</span></i>
+                        <button class="show-password-button" type="button" onclick="showPassword(0)"><i class="fa fa-eye"></i></button>
+                    </div>
+
+                    <div class="forgot">
+                        <a class="forgot" onclick="displayForgot()">Recover Password</a>
+                    </div>
+
+                    <button type="button" class="submit" style="margin-top: 29px" onclick="validateSubmitButton('login-form', 0)">SIGN IN</button>
+                </form>
+
+                <div class="or">
+                    <hr>Or<hr>
+                </div>
+
+                <button class="submit" style="margin-top: 20px">CONTINUE AS A GUEST</button>
+
+            </div>
+
+            <div class="signup-container">
+                <form class="signup-form" th:method="post" th:action="@{/save}" th:object="${user}">
+                    <div class="text-input-container-short">
+                        <div class="text-input-container">
+                           <input type="text" placeholder="First Name..." class="text-input" th:field="*{fName}" onkeyup="validateName('text-input', 1)">
+                            <i class="fas fa-user fa-xs"><span class='toolTipTextInvalid'>Name can't be empty!</span></i>
+                        </div>
+
+                        <div class="text-input-container">
+                           <input type="text" placeholder="Last Name..." class="text-input" th:field="*{lName}" onkeyup="validateName('text-input', 2)">
+                            <i class="fas fa-user fa-xs"><span class='toolTipTextInvalid'>Name can't be empty!</span></i>
+                        </div>
+                    </div>
+
+                    <div class="text-input-container">
+                        <input type="email" placeholder="Enter your email..." class="text-input" th:field="*{email}" onkeyup="validateEmail('text-input', 3)">
+                        <i class="fas fa-envelope fa-xs"><span class='toolTipTextInvalid'>Email can't be empty!</span></i>
+                    </div>
+
+                    <div class="password-input-container">
+                        <input type="password" placeholder="Create a password..." class="password-input" th:field="*{password}" onkeyup="validatePassword('password-input', 1)">
+                        <i class="fas fa-lock fa-xs"><span class='toolTipTextInvalid' style='width: 150px; margin-left: -75px'>Password can't be empty!</span></i>
+                        <button class="show-password-button" type="button" onclick="showPassword(1)"><i class="fas fa-eye"></i></button>
+                    </div>
+
+                    <div class="password-input-container">
+                        <input type="password" placeholder="Confirm password..." class="password-input" onkeyup="validatePassword('password-input', 2)">
+                        <i class="fas fa-lock fa-xs"><span class='toolTipTextInvalid' style='width: 150px; margin-left: -75px'>Password can't be empty!</span></i>
+                        <button class="show-password-button" type="button" onclick="showPassword(2)"><i class="fa fa-eye"></i></button>
+                    </div>
+
+                    <button type="button" onclick="validateSubmitButton('signup-form', 2)" class="submit">REGISTER</button>
+                </form>
+            </div>
+
+            <div class="login-container">
+                <form class="login-form" th:method="post" th:action="@{/change-password}" th:object="${user}">
+                    <div class="text-input-container">
+                        <input type="email" placeholder="Enter your email..." name="email" class="text-input" onkeyup="validateEmail('text-input', 4)">
+                        <i class="fas fa-envelope fa-xs"><span class='toolTipTextInvalid'>Email can't be empty!</span></i>
+                    </div>
+
+                    <button type="submit" class="submit" style="margin-top: 29px" onclick="validateSubmitButton('login-form', 2)">RECOVER</button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="how-it-works" id="services">
+        <div class="text-topic">
+            <span>HOW IT WORKS</span>
+            <h1>Rent With 3 Easy Steps</h1>
+        </div>
+        <div class="hiw-container">
+            <div class="box">
+                <i class="fas fa-hand-pointer fa-2x"></i>
+                <h2>Select Your Ride</h2>
+                <p>We have wide range of bikes categorized from commuters to electric. You will surely find the one of your choice.</p>
+            </div>
+
+            <div class="box">
+                <i class="fas fa-calendar fa-2x"></i>
+                <h2>Choose a Date</h2>
+                <p>Pick when you want to rent a bike and when you will return it. If the bike is available, you can book it immediately.</p>
+            </div>
+
+            <div class="box">
+                <i class="fas fa-calendar-check fa-2x"></i>
+                <h2>Book Your Choice</h2>
+                <p>Select how and when you want to pay. Both online and in-person payments are accepted.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="about" id="about">
+        <div class="text-topic">
+            <span>ABOUT US</span>
+            <h1>Providing the Best Services</h1>
+        </div>
+        <div class="content">
+            <div class="image">
+                <img th:src="@{~/images/logos/logoColoured.png}" alt="logo-image">
+            </div>
+            <div class="paragraph">
+                &emsp; &emsp; BikeSapati is a ride renting platform for two-wheelers. On this platform, you can
+                view images, view specifications and rent bikes with different plans for any period of time
+                from a day to a year. You can view bike brands and specifications for each bike along with prices
+                of each bike for different periods of time. We have tried to incorporate as many features as we can
+                to provide the best service for the user.<br><br>
+                &emsp; &emsp; We value our customers more than anything and are always willing to listen to your
+                complaints and suggestions through feedback page and provide services accordingly. So please feel
+                free to reach out to us through our social media handles or through feedback form from within the
+                app.<br><br>
+                &emsp; &emsp; Thank You!
+            </div>
+        </div>
+    </div>
+
+    <div class="reviews" id="reviews">
+        <div class="text-topic">
+            <span>REVIEWS</span>
+            <h1>What Our Customers Have To Say</h1>
+        </div>
+        <div class="review-container">
+            <div class="box">
+                <div class="img-container">
+                    <img th:src="@{~/images/home-images/rabi.jpg}" alt="person1">
+                </div>
+                <h2>Rabindra Wagle</h2>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <p>"Not only can I rent bikes, I can also view details and specifications of each bike before I do so. I love it."</p>
+            </div>
+
+            <div class="box">
+                <div class="img-container">
+                    <img th:src="@{~/images/home-images/aashu.jpg}" alt="person1">
+                </div>
+                <h2>Aashutosh Aryal</h2>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <p>"I can rent the available bikes for a day or two and return it. Very useful for anyone visiting the valley for a day or week."</p>
+            </div>
+
+            <div class="box">
+                <div class="img-container">
+                    <img th:src="@{~/images/home-images/sangay.jpg}" alt="person1">
+                </div>
+                <h2>Sangya Koirala</h2>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <p>"This website was a lot helpful for me. I could easily explore my options and rent bikes anywhere from a day to a year."</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div th:replace="~{fragments/footer.html :: footer}"></div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bikes || BikeSapati</title>
+  <link th:href="@{~/css/admin.css}" rel="stylesheet">
+  <link th:href="@{~/css/application.css}" rel="stylesheet">
+  <link th:href="@{~/css/settings.css}" rel="stylesheet">
+
+  <link href='https://fonts.googleapis.com/css?family=Suez+One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Rammetto+One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Fjord+One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Blinker' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Artifika' rel='stylesheet'>
+
+  <script th:src="@{~/javascript/hideDivision.js}" defer></script>
+
+  <link rel="shortcut icon" type="image/x-icon" th:href="@{~/images/motorcycle-solid.svg}">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+<nav th:replace="~{fragments/adminNavbar.html :: navBar}"></nav>
+<div th:if="${message}">
+  <div th:replace="~{fragments/message.html :: message-div}"></div>
+</div>
+<script th:src="@{~/javascript/message.js}"></script>
+<script>
+  navItems=document.getElementsByTagName("a");
+  for (let i=0; i<navItems.length; i++){
+    if (navItems.item(i).classList.contains("active")){
+      navItems.item(i).classList.remove("active");
+    }
+  }
+  navItems.item(2).classList.add("active");
+</script>
+
+<article>
+  <div class="middle" style="flex-direction: column;">
+    <div class="head" style="background-color: white; position: static;">
+      <!-- Search Division -->
+      <div class="search-div" style="border-radius: 18px; border: 2px solid #a9cfee; margin-top: 30px; margin-left: 60px">
+
+        <!-- Input Box -->
+        <div style="flex: 1;">
+          <label>
+            <input placeholder="Search Bikes..." class="search">
+          </label>
+        </div>
+
+        <!-- Search Button -->
+        <div>
+          <button class="search-button" onclick="if (document.getElementsByClassName('search').item(0).value!=='')
+          window.location='/search/'+document.getElementsByClassName('search').item(0).value" style="border-color: #a9cfee">
+            <img th:src="@{~/images/search.png}" alt="Go">
+          </button>
+        </div>
+      </div>
+
+      <!-- Profile Picture Division -->
+      <div class="profile" style="flex: 0.5; display: flex; padding: 60px;">
+        <div class="submit-div" style="margin-top: 30px; margin-bottom: 0">
+          <a class="submit anchor" th:href="@{~/bike/new}" style="border: 2px solid #f17300; color: #f17300; border-radius: 14px; background-color: white" >+ Add New</a>
+        </div>
+      </div>
+
+    </div>
+    <!-- Body -->
+    <div class="display-items" style="padding-top: 0">
+      <div th:each="element : ${categoryBike}" class="items-container">
+        <div class="topic">
+          <button type="button" class="hideDivButton" th:text="${element.key.categoryName}+' &#9652;'" th:id="${element.key.categoryName}"></button>
+        </div>
+        <div class="items" th:id="${element.key.categoryName}+' Div'" style="gap: 12px">
+          <div th:each="bike : ${element.value}" class="item">
+            <a th:href="@{~/bike/}+${bike.id}" style="text-decoration: none; color: white">
+              <div class="item-image" style="display: block">
+                <img th:src="'data:image/png;base64,'+${bike.bikeImageBase64}">
+                <div class="image-details">
+                  <h4 style="margin-bottom:14px; margin-top:0">Bike Specifications:</h4>
+                  <div class="field-container">
+                    <div th:if="${bike.category.id==6}" class="headings">Range</div>
+                    <div th:unless="${bike.category.id==6}" class="headings">Mileage</div>
+                    <div class="divider"></div>
+                    <div class="data"><u th:text="${bike.mileage}"></u></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Top Speed</div>
+                    <div class="divider"></div>
+                    <div class="data"><u th:text="${bike.topSpeed}+' km/hr'"></u></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div th:if="${bike.category.id==6}" class="headings">Motor</div>
+                    <div th:unless="${bike.category.id==6}" class="headings">Engine</div>
+                    <div class="divider"></div>
+                    <div class="data"><u th:text="${bike.power}"></u></div>
+                  </div>
+
+                  <div class="field-container">
+                    <div class="headings">Price</div>
+                    <div class="divider"></div>
+                    <div class="data"><u th:text="'Rs. '+${bike.priceDay}+' / Day'"></u></div>
+                  </div>
+
+                </div>
+              </div>
+              <hr style="width:90%">
+              <div class="bike-brand" th:text="${bike.brandName}"></div>
+              <div class="bike-name" th:text="${bike.bikeName}"></div>
+            </a>
+          </div>
+        </div>
+        <hr>
+      </div>
+    </div>
+  </div>
+
+</article>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+<div th:fragment="message-div" class="message">
+  <div class="top">
+    <label th:text="${message}"></label>
+    <button id="close-message" onclick="message()"><i class="fa fa-times"></i></button>
+  </div>
+  <div class="timer"></div>
+</div>
+
+<div th:fragment="errorMessage-div" class="message" style="background-color: #e94d4d">
+  <div class="top">
+    <label th:text="${errorMessage}"></label>
+    <button id="close-message" onclick="message()"><i class="fa fa-times" style="color: #cc1919"></i></button>
+  </div>
+  <div class="timer" style="background-color: #cc1919"></div>
+</div>

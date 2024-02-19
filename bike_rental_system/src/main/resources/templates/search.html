@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <link href='https://fonts.googleapis.com/css?family=Suez+One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Rammetto+One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Fjord+One' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Blinker' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Artifika' rel='stylesheet'>
+
+    <link th:href="@{~/css/application.css}" rel="stylesheet">
+    <title>Search || BikeSapati</title>
+
+  <link rel="shortcut icon" type="image/x-icon" th:href="@{~/images/motorcycle-solid.svg}">
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+          integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+          crossorigin="anonymous">
+  </script>
+
+</head>
+<body>
+<header>
+  <div th:replace="~{fragments/searchBar.html :: search-bar-normal}"></div>
+</header>
+
+<article>
+  <div class="middle" style="min-height: calc(100vh - 262px);">
+    <!-- Body -->
+    <div class="display-items" style="width: 100%">
+      <div class="items-container">
+        <div class="topic">
+          <div class="see-more">
+            <a th:href="@{/home}">⮜ <u>Back</u></a>
+          </div><h3 th:text="'Search Results For: '+${searchTerm}"> </h3>
+        </div>
+        <span class="desc"></span>
+        <div class="items">
+          <div class="item" th:if="${bikeList.isEmpty()}">
+            <div class="item-image">
+              <img th:src="@{~/images/bikeSilhouette.png}">
+            </div>
+            <hr style="width:90%">
+            <div class="bike-name" style="margin-top: 20px">Not Found!</div>
+          </div>
+
+          <div class="item" th:each="bike:${bikeList}">
+            <a th:href="@{~/bike/}+${bike.id}" style="text-decoration: none">
+            <div class="item-image">
+              <img th:src="'data:image/png;base64,'+${bike.bikeImageBase64}">
+              <div class="image-details">
+                <h4 style="margin-bottom:14px; margin-top:0">Bike Specifications:</h4>
+                <div class="field-container">
+                  <div th:if="${bike.category.id==6}" class="headings">Range</div>
+                  <div th:unless="${bike.category.id==6}" class="headings">Mileage</div>
+                  <div class="divider"></div>
+                  <div class="data"><u th:text="${bike.mileage}"></u></div>
+                </div>
+
+                <div class="field-container">
+                  <div class="headings">Top Speed</div>
+                  <div class="divider"></div>
+                  <div class="data"><u th:text="${bike.topSpeed}+' km/hr'"></u></div>
+                </div>
+
+                <div class="field-container">
+                  <div th:if="${bike.category.id==6}" class="headings">Motor</div>
+                  <div th:unless="${bike.category.id==6}" class="headings">Engine</div>
+                  <div class="divider"></div>
+                  <div class="data"><u th:text="${bike.power}"></u></div>
+                </div>
+
+                <div class="field-container">
+                  <div class="headings">Price</div>
+                  <div class="divider"></div>
+                  <div class="data"><u th:text="'Rs. '+${bike.priceDay}+' / Day'"></u></div>
+                </div>
+              </div>
+            </div>
+            <hr style="width:90%">
+            <div class="bike-brand" th:text="${bike.brandName}"></div>
+            <div class="bike-name" th:text="${bike.bikeName}"></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+<footer>
+    <div th:replace="~{fragments/footer.html :: footer}"></div>
+</footer>
+
+<script type="text/javascript">
+  let time = ['Day', 'Month', 'Year'];
+  let index = 0;
+  $('.image-prices').each(function() {
+    let monetary_value = $(this).text();
+    let i = new Intl.NumberFormat('en-IN').format(monetary_value);
+    $(this).text("Rs. "+i+" / "+time[index]);
+    index++;
+    if (index===3) index=0;
+  });
+</script>
+
+</body>
+</html>
